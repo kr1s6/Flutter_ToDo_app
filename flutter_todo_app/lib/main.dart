@@ -1,8 +1,7 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_todo_app/main_page.dart';
+import 'package:flutter_todo_app/create_note.dart';
+import 'package:flutter_todo_app/notes_page.dart';
 import 'package:provider/provider.dart';
-import 'package:english_words/english_words.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,43 +15,53 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => MyAppState(),
       child: MaterialApp(
-        title: 'TODO App',
+        title: 'ToDo App',
         theme: ThemeData(
           useMaterial3: true,
           colorScheme:
               ColorScheme.fromSeed(seedColor: Color.fromRGBO(89, 213, 39, 1)),
         ),
-        home: MainPage(),
+        home: const MainPage(),
       ),
     );
   }
 }
 
 class MyAppState extends ChangeNotifier {
-  var current = WordPair.random();
-  Random random = Random();
-  Color bigCardColor = Colors.green[900]!;
-
-  void getNext() {
-    current = WordPair.random();
-    bigCardColor =
-        Colors.primaries[Random().nextInt(Colors.primaries.length)][900]!;
-    notifyListeners();
-  }
-
-  var favorites = <WordPair>{};
-
-  void toggleFavorite() {
-    if (favorites.contains(current)) {
-      favorites.remove(current);
+  var selectedPage = 0;
+  void changePage() {
+    if (selectedPage == 0) {
+      selectedPage = 1;
     } else {
-      favorites.add(current);
+      selectedPage = 0;
     }
     notifyListeners();
   }
 
-  void removeFavorite(value) {
-    favorites.remove(value);
-    notifyListeners();
+  var notesList = <Container>[];
+}
+
+class MainPage extends StatelessWidget {
+  const MainPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    var selectedPage = context.watch<MyAppState>().selectedPage;
+
+    Widget page;
+    switch (selectedPage) {
+      case 0:
+        page = NotesPage();
+        break;
+      case 1:
+        page = NewNotePage();
+        break;
+      default:
+        throw UnimplementedError('no widget for $selectedPage');
+    }
+
+    return Container(
+      child: page,
+    );
   }
 }
