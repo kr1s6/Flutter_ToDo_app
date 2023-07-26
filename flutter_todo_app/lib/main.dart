@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_todo_app/favorite_page.dart';
-import 'package:flutter_todo_app/generator_page.dart';
+import 'package:flutter_todo_app/main_page.dart';
 import 'package:provider/provider.dart';
 import 'package:english_words/english_words.dart';
 
@@ -17,13 +16,13 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => MyAppState(),
       child: MaterialApp(
-        title: 'Namer App',
+        title: 'TODO App',
         theme: ThemeData(
           useMaterial3: true,
           colorScheme:
-              ColorScheme.fromSeed(seedColor: Color.fromRGBO(149, 214, 75, 1)),
+              ColorScheme.fromSeed(seedColor: Color.fromRGBO(89, 213, 39, 1)),
         ),
-        home: MyHomePage(),
+        home: MainPage(),
       ),
     );
   }
@@ -55,66 +54,5 @@ class MyAppState extends ChangeNotifier {
   void removeFavorite(value) {
     favorites.remove(value);
     notifyListeners();
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  var selectedIndex = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    Widget page;
-    switch (selectedIndex) {
-      case 0:
-        page = GeneratorPage();
-        break;
-      case 1:
-        page = FavoritesPage();
-        break;
-      default:
-        throw UnimplementedError('no widget for $selectedIndex');
-    }
-
-    return LayoutBuilder(builder: (context, constraints) {
-      return Scaffold(
-        body: Row(
-          children: [
-            SafeArea(
-              child: NavigationRail(
-                minExtendedWidth: 180,
-                extended: constraints.maxWidth >= 600,
-                destinations: [
-                  NavigationRailDestination(
-                    icon: Icon(Icons.home),
-                    label: Text("Home"),
-                  ),
-                  NavigationRailDestination(
-                    icon: Icon(Icons.favorite),
-                    label: Text("Favorities"),
-                  ),
-                ],
-                selectedIndex: selectedIndex,
-                onDestinationSelected: (value) {
-                  setState(() {
-                    selectedIndex = value;
-                  });
-                },
-              ),
-            ),
-            Expanded(
-              child: Container(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                child: page,
-              ),
-            ),
-          ],
-        ),
-      );
-    });
   }
 }
