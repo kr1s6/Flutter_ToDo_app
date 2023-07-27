@@ -18,8 +18,11 @@ class MyApp extends StatelessWidget {
         title: 'ToDo App',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme:
-              ColorScheme.fromSeed(seedColor: Color.fromRGBO(89, 213, 39, 1)),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+          appBarTheme: AppBarTheme(
+            toolbarHeight: 50,
+            backgroundColor: Colors.green[700]!,
+          ),
         ),
         home: const MainPage(),
       ),
@@ -43,7 +46,6 @@ class MyAppState extends ChangeNotifier {
 
 class MainPage extends StatelessWidget {
   const MainPage({super.key});
-
   @override
   Widget build(BuildContext context) {
     var selectedPage = context.watch<MyAppState>().selectedPage;
@@ -59,7 +61,6 @@ class MainPage extends StatelessWidget {
       default:
         throw UnimplementedError('no widget for $selectedPage');
     }
-
     return Container(
       child: page,
     );
