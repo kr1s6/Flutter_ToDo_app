@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'new_note_page.dart';
+import 'package:flutter_todo_app/home_page/home_page.dart';
 
 class NewNoteBottomAppBar extends StatelessWidget {
   const NewNoteBottomAppBar({super.key});
@@ -20,7 +19,7 @@ class NewNoteBottomAppBar extends StatelessWidget {
               tooltip: 'back',
               icon: const Icon(Icons.chevron_left_rounded),
               onPressed: () {
-                Navigator.pushReplacementNamed(context, NewNotePage.routeName);
+                Navigator.pushReplacementNamed(context, HomePage.routeName);
               },
             ),
           ],

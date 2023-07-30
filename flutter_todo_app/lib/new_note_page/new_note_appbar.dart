@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
 
-class NewNotePageAppBar extends StatelessWidget {
-  const NewNotePageAppBar({super.key});
+class NewNoteAppBar extends StatefulWidget {
+  const NewNoteAppBar({super.key, required this.controller});
+  final TextEditingController controller;
+
+  @override
+  State<NewNoteAppBar> createState() => NewNoteAppBarState();
+}
+
+class NewNoteAppBarState extends State<NewNoteAppBar> {
+  @override
+  void initState() {
+    super.initState();
+    widget.controller.text = widget.controller.text;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -10,6 +22,7 @@ class NewNotePageAppBar extends StatelessWidget {
       child: Tooltip(
         message: "title",
         child: TextField(
+          controller: widget.controller,
           textAlignVertical: TextAlignVertical.center,
           style: Theme.of(context).textTheme.titleMedium,
           maxLength: 25,
