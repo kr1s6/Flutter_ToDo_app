@@ -29,11 +29,12 @@ class _HomeBodyState extends State<HomeBody> {
               child: ListTile(
                 contentPadding: const EdgeInsets.all(0),
                 title: Text(note.title.text),
-                leading: const Text("content"),
                 trailing: IconButton(
-                  icon: const Icon(Icons.delete),
+                  icon: const Icon(Icons.delete, size: 22),
                   onPressed: () {
                     appState.removeNote(note);
+                    note.title.dispose();
+                    note.content.dispose();
                   },
                 ),
               ),
