@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_app/main.dart';
-import 'package:flutter_todo_app/note.dart';
+import 'package:flutter_todo_app/note/note.dart';
 import 'package:provider/provider.dart';
 
 import '../home_page/home_page.dart';
@@ -19,11 +19,6 @@ class NewNotePage extends StatefulWidget {
 class _NewNotePageState extends State<NewNotePage> {
   final titleController = TextEditingController();
   final contentController = TextEditingController();
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
