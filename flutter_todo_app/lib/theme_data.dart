@@ -22,8 +22,7 @@ class CustomTheme {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-            side: BorderSide(width: 1, color: Colors.green[900]!),
-            elevation: 0,
+            side: BorderSide(width: 1.5, color: Colors.green[900]!),
             backgroundColor: const Color.fromARGB(255, 73, 196, 93),
             shape: const ContinuousRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(5)))),

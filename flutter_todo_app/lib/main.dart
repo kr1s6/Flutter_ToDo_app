@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_todo_app/note/note.dart';
 import 'package:provider/provider.dart';
 
+import 'database.dart';
 import 'home_page/home_page.dart';
 import 'new_note_page/new_note_page.dart';
 import 'theme_data.dart';
@@ -20,7 +20,6 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'ToDo App',
         theme: CustomTheme().themedata,
-        // home: const NotesPage(),
         home: const HomePage(),
         routes: {
           HomePage.routeName: (context) => const HomePage(),
@@ -32,12 +31,22 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier {
-  var notesList = <Note>[];
+  static var notesList = <NoteModel>[];
 
-  void removeNote(note) {
-    notesList.remove(note);
+  void addNote(titleController, contentController) async {
+    NoteModel note = NoteModel(
+      title: titleController.text,
+      content: contentController.text,
+    );
+    await DatabaseHelper.instance.insert(note: note);
     notifyListeners();
+    print("IN addNote");
   }
+
+  // void removeNote(note) {
+  //   notesList.remove(note);
+  //   notifyListeners();
+  // }
 
   void notification() {
     notifyListeners();
