@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_app/main.dart';
-import 'package:flutter_todo_app/note/note.dart';
 import 'package:provider/provider.dart';
 
-import '../home_page/home_page.dart';
 import 'new_note_appbar.dart';
 import 'new_note_body.dart';
-import 'new_note_bottom_appbar.dart';
 
 class NewNotePage extends StatefulWidget {
   const NewNotePage({super.key});
@@ -21,6 +18,13 @@ class _NewNotePageState extends State<NewNotePage> {
   final contentController = TextEditingController();
 
   @override
+  void dispose() {
+    titleController.dispose();
+    contentController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
 
@@ -28,21 +32,30 @@ class _NewNotePageState extends State<NewNotePage> {
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       // ----------------------TOP--------------------------------
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        titleSpacing: 10,
         title: NewNoteAppBar(controller: titleController),
       ),
       // ----------------------Center-------------------------------
       body: NewNoteBody(controller: contentController),
       // ----------------------BOTTOM--------------------------------
-      bottomNavigationBar: const NewNoteBottomAppBar(),
+      bottomNavigationBar: const BottomAppBar(
+        notchMargin: 4,
+        clipBehavior: Clip.antiAlias,
+      ),
       floatingActionButton: FloatingActionButton(
         tooltip: 'save',
         onPressed: () {
-          appState.notesList
-              .add(Note(title: titleController, content: contentController));
-
-          Navigator.pushReplacementNamed(context, HomePage.routeName);
+          if (titleController.text.isNotEmpty ||
+              contentController.text.isNotEmpty) {
+            appState.addNote(titleController, contentController);
+          }
+          Navigator.pop(context);
         },
-        child: const Icon(Icons.save),
+        child: const Icon(
+          Icons.done_rounded,
+          size: 32,
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );
