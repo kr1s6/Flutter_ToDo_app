@@ -17,8 +17,6 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   @override
   void initState() {
-    print("in initState HOMEPAGE");
-    initDb();
     getNotes();
     super.initState();
   }
@@ -37,6 +35,8 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    initDb();
+    getNotes();
     final theme = Theme.of(context);
     return Scaffold(
       backgroundColor: theme.colorScheme.primaryContainer,
