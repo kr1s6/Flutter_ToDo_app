@@ -40,7 +40,6 @@ class MyAppState extends ChangeNotifier {
     );
     await DatabaseHelper.instance.insert(note: note);
     notifyListeners();
-    print("IN addNote");
   }
 
   // void removeNote(note) {
