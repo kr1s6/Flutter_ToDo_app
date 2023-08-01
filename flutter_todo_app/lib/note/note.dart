@@ -4,7 +4,12 @@ import 'note_appbar.dart';
 import 'note_body.dart';
 
 class Note extends StatelessWidget {
-  const Note({super.key, required this.title, required this.content});
+  const Note(
+      {super.key,
+      required this.id,
+      required this.title,
+      required this.content});
+  final int? id;
   final TextEditingController title;
   final TextEditingController content;
 

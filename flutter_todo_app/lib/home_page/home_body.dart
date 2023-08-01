@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_app/database.dart';
-import 'package:flutter_todo_app/home_page/home_page.dart';
 import 'package:flutter_todo_app/note/note.dart';
+import 'package:provider/provider.dart';
 
 import '../main.dart';
 
@@ -12,34 +12,23 @@ class HomeBody extends StatefulWidget {
   State<HomeBody> createState() => _HomeBodyState();
 }
 
-void delete({required NoteModel note, required BuildContext context}) async {
-  DatabaseHelper.instance.delete(note.id!).then((value) {
-    notesList.remove(note);
-    ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text('Deleted')));
-  }).catchError((e) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(e.toString())));
-  });
-}
-
 class _HomeBodyState extends State<HomeBody> {
   @override
   Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
+
     return ListView(
       padding: const EdgeInsets.all(5),
       children: <Widget>[
-        if (notesList.isNotEmpty) ...[
-          for (var note in notesList) ...[
+        if (notesList.isNotEmpty)
+          for (var note in notesList)
             NoteWidget(
-              note: note,
-              onDeletePressed: () {
-                delete(note: note, context: context);
-                HomePageState().getNotes();
-              },
-            )
-          ]
-        ] else ...[
+                note: note,
+                onDeletePressed: () {
+                  DataDB.delete(note: note, context: context);
+                  appState.notification();
+                })
+        else ...[
           Container(
             alignment:
                 AlignmentGeometry.lerp(Alignment.center, Alignment.center, 0),
@@ -58,58 +47,49 @@ class _HomeBodyState extends State<HomeBody> {
 }
 
 class NoteWidget extends StatelessWidget {
-  const NoteWidget({
-    super.key,
-    required this.note,
-    required this.onDeletePressed,
-  });
+  const NoteWidget(
+      {super.key, required this.note, required this.onDeletePressed});
   final NoteModel note;
   final VoidCallback onDeletePressed;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 40,
-          child: ElevatedButton(
+    return Column(children: [
+      SizedBox(
+        height: 40,
+        child: ElevatedButton(
             onPressed: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => Note(
-                            title: note.titleController,
-                            content: note.contentController,
-                          )));
+                          id: note.id,
+                          title: note.titleController,
+                          content: note.contentController)));
             },
-            child: Row(
-              children: [
-                Text(
-                  note.titleController.text,
+            child: Row(children: [
+              Text(note.titleController.text,
                   style: const TextStyle(
                     fontSize: 18,
                     color: Color.fromARGB(255, 218, 255, 203),
-                  ),
-                ),
-                const Spacer(),
-                IconButton(
+                  )),
+              const Spacer(),
+              IconButton(
+                  focusColor: Colors.amber,
+                  highlightColor: Colors.amber,
+                  splashRadius: 20,
+                  splashColor: Colors.amber,
                   icon: const Icon(
                     Icons.delete,
                     size: 20,
                     color: Color.fromARGB(255, 210, 255, 192),
                   ),
                   onPressed: () {
-                    delete(note: note, context: context);
-                  },
-                )
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(
-          height: 5,
-        )
-      ],
-    );
+                    onDeletePressed();
+                  })
+            ])),
+      ),
+      const SizedBox(height: 5)
+    ]);
   }
 }

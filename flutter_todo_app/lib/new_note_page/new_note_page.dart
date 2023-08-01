@@ -48,7 +48,8 @@ class _NewNotePageState extends State<NewNotePage> {
         onPressed: () {
           if (titleController.text.isNotEmpty ||
               contentController.text.isNotEmpty) {
-            appState.addNote(titleController, contentController);
+            DataDB.addNote(titleController, contentController);
+            appState.notification();
           }
           Navigator.pop(context);
         },
