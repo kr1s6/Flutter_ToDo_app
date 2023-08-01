@@ -18,6 +18,7 @@ class DataDB {
     await DatabaseHelper.instance.getAllNotes().then((value) {
       notesList = value;
     });
+    
     print("notesList values:");
     for (var x in notesList) {
       print(

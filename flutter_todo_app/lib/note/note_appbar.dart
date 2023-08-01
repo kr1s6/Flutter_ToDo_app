@@ -27,13 +27,10 @@ class _NoteAppBarState extends State<NoteAppBar> {
       child: TextField(
         controller: widget.controllerTitle,
         onChanged: (value) {
-          print(widget.controllerTitle.text);
           appState.notification();
         },
-        textAlignVertical: TextAlignVertical.center,
         style: Theme.of(context).textTheme.titleMedium,
         maxLength: 25,
-        maxLines: 1,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 8),
           counterText: "",

@@ -14,22 +14,17 @@ class Note extends StatelessWidget {
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       // ----------------------TOP--------------------------------
       appBar: AppBar(
-        titleSpacing: 10,
+        titleSpacing: 0,
         automaticallyImplyLeading: false,
         title: Row(
           children: [
             IconButton(
-              alignment: Alignment.centerLeft,
               iconSize: 20,
-              padding: const EdgeInsets.all(0),
               tooltip: 'back & save',
               icon: const Icon(Icons.arrow_back),
               onPressed: () {
                 Navigator.pop(context);
               },
-            ),
-            const SizedBox(
-              width: 0,
             ),
             Expanded(child: NoteAppBar(controllerTitle: title)),
           ],
@@ -37,20 +32,6 @@ class Note extends StatelessWidget {
       ),
       // ----------------------Center-------------------------------
       body: NoteBody(controllerContent: content),
-      // ----------------------BOTTOM--------------------------------
-      bottomNavigationBar: const NoteBottomAppBar(),
-    );
-  }
-}
-
-class NoteBottomAppBar extends StatelessWidget {
-  const NoteBottomAppBar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const BottomAppBar(
-      notchMargin: 4,
-      clipBehavior: Clip.antiAlias,
     );
   }
 }
