@@ -17,7 +17,8 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   @override
   void initState() {
-    getNotes();
+    // initDb();
+    // getNotes();
     super.initState();
   }
 
@@ -28,15 +29,13 @@ class HomePageState extends State<HomePage> {
   void getNotes() async {
     await DatabaseHelper.instance.getAllNotes().then((value) {
       setState(() {
-        MyAppState.notesList = value;
+        notesList = value;
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    initDb();
-    getNotes();
     final theme = Theme.of(context);
     return Scaffold(
       backgroundColor: theme.colorScheme.primaryContainer,

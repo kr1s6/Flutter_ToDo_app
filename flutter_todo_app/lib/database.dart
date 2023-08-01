@@ -3,9 +3,9 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class NoteModel {
-  int? id;
-  TextEditingController titleController;
-  TextEditingController contentController;
+  final int? id;
+  final TextEditingController titleController;
+  final TextEditingController contentController;
 
   NoteModel({
     this.id,

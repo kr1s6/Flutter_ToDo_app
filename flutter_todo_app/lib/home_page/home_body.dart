@@ -14,7 +14,7 @@ class HomeBody extends StatefulWidget {
 
 void delete({required NoteModel note, required BuildContext context}) async {
   DatabaseHelper.instance.delete(note.id!).then((value) {
-    MyAppState.notesList.remove(note);
+    notesList.remove(note);
     ScaffoldMessenger.of(context)
         .showSnackBar(const SnackBar(content: Text('Deleted')));
   }).catchError((e) {
@@ -26,8 +26,6 @@ void delete({required NoteModel note, required BuildContext context}) async {
 class _HomeBodyState extends State<HomeBody> {
   @override
   Widget build(BuildContext context) {
-    var notesList = MyAppState.notesList;
-
     return ListView(
       padding: const EdgeInsets.all(5),
       children: <Widget>[
