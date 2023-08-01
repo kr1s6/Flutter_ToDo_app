@@ -70,24 +70,39 @@ class NoteWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Note(
-                          title: note.titleController,
-                          content: note.contentController,
-                        )));
-          },
-          child: ListTile(
-            contentPadding: const EdgeInsets.all(0),
-            title: Text(note.titleController.text),
-            trailing: IconButton(
-              icon: const Icon(Icons.delete, size: 20),
-              onPressed: () {
-                delete(note: note, context: context);
-              },
+        SizedBox(
+          height: 40,
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Note(
+                            title: note.titleController,
+                            content: note.contentController,
+                          )));
+            },
+            child: Row(
+              children: [
+                Text(
+                  note.titleController.text,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    color: Color.fromARGB(255, 218, 255, 203),
+                  ),
+                ),
+                const Spacer(),
+                IconButton(
+                  icon: const Icon(
+                    Icons.delete,
+                    size: 20,
+                    color: Color.fromARGB(255, 210, 255, 192),
+                  ),
+                  onPressed: () {
+                    delete(note: note, context: context);
+                  },
+                )
+              ],
             ),
           ),
         ),

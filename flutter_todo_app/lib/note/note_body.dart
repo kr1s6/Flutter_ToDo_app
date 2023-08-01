@@ -23,8 +23,9 @@ class _NoteBodyState extends State<NoteBody> {
     var appState = context.watch<MyAppState>();
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
       child: TextField(
+        expands: true,
         controller: widget.controllerContent,
         onChanged: (value) {
           print(widget.controllerContent.text);
