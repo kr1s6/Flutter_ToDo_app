@@ -25,9 +25,9 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'ToDo App',
         theme: CustomTheme().themedata,
-        home: const HomePage(),
+        home: HomePage(),
         routes: {
-          HomePage.routeName: (context) => const HomePage(),
+          HomePage.routeName: (context) => HomePage(),
           NewNotePage.routeName: (context) => const NewNotePage(),
         },
       ),
@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier {
+  // var appState = context.watch<MyAppState>();
   void notification() {
     notifyListeners();
   }
@@ -44,43 +45,39 @@ class MyAppState extends ChangeNotifier {
 // -----------------------------------------------------------------------------------------
 List notesList = <NoteModel>[];
 
-class DataDB {
-  static initDb() async {
+class DataDB extends ChangeNotifier {
+  static Future<void> initDb() async {
     await DatabaseHelper.instance.database
         .whenComplete(() => print("Complete initDB"));
   }
 
-  static getNotes() async {
+  static Future<void> getNotes() async {
     await DatabaseHelper.instance.getAllNotes().then((value) {
       notesList = value;
     });
 
     print("notesList values:");
     for (var x in notesList) {
-      print(
-          "id: ${x.id}, title: ${x.titleController.text}, content: ${x.contentController.text}");
+      print("id: ${x.id}, title: ${x.titleController.text}");
     }
   }
 
-  static addNote(titleController, contentController) async {
-    NoteModel note = NoteModel(
-      title: titleController.text,
-      content: contentController.text,
-    );
-    await DatabaseHelper.instance.insert(note: note);
+  static Future<void> addNote({required NoteModel note}) async {
+    await DatabaseHelper.instance.insert(note: note).then((value) {
+      notesList.add(value);
+      print("addNote");
+    });
     // ------------------------------------
-    DatabaseHelper.instance.getAllNotes().then((value) {
-      print("length: ${value.length}");
+    await DatabaseHelper.instance.getAllNotes().then((value) {
       for (var x in value) {
-        print(
-            "id: ${x.id}, title: ${x.titleController.text}, content: ${x.contentController.text}");
+        print("id: ${x.id}, title: ${x.titleController.text}");
       }
     });
   }
 
-  static delete(
+  static Future<void> delete(
       {required NoteModel note, required BuildContext context}) async {
-    DatabaseHelper.instance.delete(note.id!).then((value) {
+    await DatabaseHelper.instance.delete(note.id!).then((_) {
       notesList.remove(note);
     }).catchError((e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

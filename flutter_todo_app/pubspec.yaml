@@ -19,6 +19,7 @@ dependencies:
   sqflite_common_ffi:
   sqlite3_flutter_libs:
   foundation:
+  pull_to_refresh: ^2.0.0
 
 dev_dependencies:
   flutter_test:

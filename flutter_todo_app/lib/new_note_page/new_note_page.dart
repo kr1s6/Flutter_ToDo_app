@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_app/main.dart';
-import 'package:provider/provider.dart';
 
+import '../database.dart';
 import 'new_note_appbar.dart';
 import 'new_note_body.dart';
 
@@ -10,10 +10,10 @@ class NewNotePage extends StatefulWidget {
   static const String routeName = '/home/new_note';
 
   @override
-  State<NewNotePage> createState() => _NewNotePageState();
+  State<NewNotePage> createState() => NewNotePageState();
 }
 
-class _NewNotePageState extends State<NewNotePage> {
+class NewNotePageState extends State<NewNotePage> {
   final titleController = TextEditingController();
   final contentController = TextEditingController();
 
@@ -26,8 +26,6 @@ class _NewNotePageState extends State<NewNotePage> {
 
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
-
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       // ----------------------TOP--------------------------------
@@ -45,13 +43,22 @@ class _NewNotePageState extends State<NewNotePage> {
       ),
       floatingActionButton: FloatingActionButton(
         tooltip: 'save',
-        onPressed: () {
+        onPressed: () async {
           if (titleController.text.isNotEmpty ||
               contentController.text.isNotEmpty) {
-            DataDB.addNote(titleController, contentController);
-            appState.notification();
+            NoteModel note = NoteModel(
+              title: titleController.text,
+              content: contentController.text,
+            );
+            print("Before addNote");
+            await DataDB.addNote(note: note).then((value) {
+              print("Added to noteList!");
+              Navigator.pop(context);
+            });
+          } else {
+            //TODO add boolean to Navigato.pop(context)
+            Navigator.pop(context);
           }
-          Navigator.pop(context);
         },
         child: const Icon(
           Icons.done_rounded,
