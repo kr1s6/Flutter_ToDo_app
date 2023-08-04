@@ -61,12 +61,15 @@ class DatabaseHelper {
     });
   }
 
-  Future<void> insert({required NoteModel note}) async {
+  Future<NoteModel> insert({required NoteModel note}) async {
     try {
       final db = await database;
-      db.insert('notes', note.toMap());
+      final id = await db.insert('notes', note.toMap());
+      final result = await db.query("notes", where: "id = ?", whereArgs: [id]);
+      return NoteModel.fromJson(result.first);
     } catch (e) {
       print(e.toString());
+      rethrow;
     }
   }
 

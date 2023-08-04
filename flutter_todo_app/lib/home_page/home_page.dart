@@ -4,15 +4,17 @@ import '../new_note_page/new_note_page.dart';
 import 'home_body.dart';
 import 'home_bottom_appbar.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-  static const String routeName = '/home';
-
-  @override
-  State<HomePage> createState() => HomePageState();
+class HomePageController {
+  late void Function() updateBodyState;
 }
 
-class HomePageState extends State<HomePage> {
+
+class HomePage extends StatelessWidget {
+  HomePage({super.key});
+  static const String routeName = '/home';
+
+  final HomePageController myController = HomePageController();
+  
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -26,12 +28,15 @@ class HomePageState extends State<HomePage> {
         ),
       ),
       // ----------------------Center-------------------------------
-      body: const HomeBody(),
+      body: HomeBody(controller: myController),
       // ----------------------BOTTOM--------------------------------
       bottomNavigationBar: const HomeBottomAppBar(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, NewNotePage.routeName);
+          Navigator.pushNamed(context, NewNotePage.routeName).then((_) {
+            myController.updateBodyState();
+            print("setStates");
+          });
         },
         child: const Icon(Icons.create),
       ),

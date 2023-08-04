@@ -1,47 +1,68 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_app/database.dart';
 import 'package:flutter_todo_app/note/note.dart';
-import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+
 
 import '../main.dart';
+import 'home_page.dart';
 
 class HomeBody extends StatefulWidget {
-  const HomeBody({super.key});
+  const HomeBody({super.key, required this.controller});
+  final HomePageController controller;
 
   @override
   State<HomeBody> createState() => _HomeBodyState();
 }
 
 class _HomeBodyState extends State<HomeBody> {
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
+  @override
+  void initState() {
+    super.initState();
+    widget.controller.updateBodyState = () {
+      setState(() {});
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
+    return SmartRefresher(
+      controller: _refreshController,
+      onRefresh: () {
+        setState(() {});
+        _refreshController.refreshCompleted();
+      },
+      child: ListView(
+        padding: const EdgeInsets.all(5),
+        children: <Widget>[
+          if (notesList.isNotEmpty)
+            for (var note in notesList)
+              NoteWidget(
+                  note: note,
+                  onDeletePressed: () {
+                    DataDB.delete(note: note, context: context).then((value) {
+                      setState(() {});
+                    });
+                  })
+          else ...[
+            Container(
+              alignment:
+                  AlignmentGeometry.lerp(Alignment.center, Alignment.center, 0),
+              child: Text(
+                "Add your first note",
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(color: Colors.black.withOpacity(0.5)),
+              ),
 
-    return ListView(
-      padding: const EdgeInsets.all(5),
-      children: <Widget>[
-        if (notesList.isNotEmpty)
-          for (var note in notesList)
-            NoteWidget(
-                note: note,
-                onDeletePressed: () {
-                  DataDB.delete(note: note, context: context);
-                  appState.notification();
-                })
-        else ...[
-          Container(
-            alignment:
-                AlignmentGeometry.lerp(Alignment.center, Alignment.center, 0),
-            child: Text(
-              "Add your first note",
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(color: Colors.black.withOpacity(0.5)),
             ),
-          ),
+          ],
         ],
-      ],
+      ),
     );
   }
 }
@@ -75,10 +96,6 @@ class NoteWidget extends StatelessWidget {
                   )),
               const Spacer(),
               IconButton(
-                  focusColor: Colors.amber,
-                  highlightColor: Colors.amber,
-                  splashRadius: 20,
-                  splashColor: Colors.amber,
                   icon: const Icon(
                     Icons.delete,
                     size: 20,
