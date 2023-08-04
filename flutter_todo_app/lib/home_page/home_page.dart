@@ -8,12 +8,13 @@ class HomePageController {
   late void Function() updateBodyState;
 }
 
+
 class HomePage extends StatelessWidget {
   HomePage({super.key});
   static const String routeName = '/home';
 
   final HomePageController myController = HomePageController();
-
+  
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

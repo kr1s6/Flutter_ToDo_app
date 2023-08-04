@@ -42,10 +42,11 @@ class MyAppState extends ChangeNotifier {
   }
 }
 
+
 // -----------------------------------------------------------------------------------------
 List notesList = <NoteModel>[];
 
-class DataDB extends ChangeNotifier {
+class DataDB {
   static Future<void> initDb() async {
     await DatabaseHelper.instance.database
         .whenComplete(() => print("Complete initDB"));
