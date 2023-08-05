@@ -32,9 +32,10 @@ class HomePage extends StatelessWidget {
       bottomNavigationBar: const HomeBottomAppBar(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, NewNotePage.routeName).then((_) {
-            myController.updateBodyState();
-            print("setStates");
+          Navigator.pushNamed(context, NewNotePage.routeName).then((value) {
+            if (value == true) {
+              myController.updateBodyState();
+            }
           });
         },
         child: const Icon(Icons.create),

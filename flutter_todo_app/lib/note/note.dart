@@ -19,10 +19,9 @@ class Note extends StatelessWidget {
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       // ----------------------TOP--------------------------------
       appBar: AppBar(
-        titleSpacing: 0,
-        automaticallyImplyLeading: false,
-        title: Row(
-          children: [
+          automaticallyImplyLeading: false,
+          titleSpacing: 0,
+          title: Row(children: [
             IconButton(
               iconSize: 20,
               tooltip: 'back & save',
@@ -32,9 +31,7 @@ class Note extends StatelessWidget {
               },
             ),
             Expanded(child: NoteAppBar(controllerTitle: title)),
-          ],
-        ),
-      ),
+          ])),
       // ----------------------Center-------------------------------
       body: NoteBody(controllerContent: content),
     );

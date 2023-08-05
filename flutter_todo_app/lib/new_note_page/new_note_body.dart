@@ -15,21 +15,23 @@ class NewNoteBodyState extends State<NewNoteBody> {
   void initState() {
     super.initState();
     widget.controller.text = widget.controller.text;
+    widget.controller.text =
+        "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+    widget.controller.selection =
+        TextSelection.fromPosition(const TextPosition(offset: 0));
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
       child: TextField(
+        expands: true,
+        autofocus: true,
         controller: widget.controller,
         maxLines: null,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           border: InputBorder.none,
-          hintText: "Note",
-          hintStyle: TextStyle(
-            color: Colors.black.withOpacity(0.4),
-          ),
         ),
       ),
     );

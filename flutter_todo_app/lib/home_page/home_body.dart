@@ -42,7 +42,12 @@ class _HomeBodyState extends State<HomeBody> {
               NoteWidget(
                   note: note,
                   onDeletePressed: () {
-                    DataDB.delete(note: note, context: context).then((value) {
+                    DataDB.delete(note: note, context: context).then((_) {
+                      setState(() {});
+                    });
+                  },
+                  onBackSavePressed: () {
+                    DataDB.update(note: note).then((_) {
                       setState(() {});
                     });
                   })
@@ -67,9 +72,13 @@ class _HomeBodyState extends State<HomeBody> {
 
 class NoteWidget extends StatelessWidget {
   const NoteWidget(
-      {super.key, required this.note, required this.onDeletePressed});
+      {super.key,
+      required this.note,
+      required this.onDeletePressed,
+      required this.onBackSavePressed});
   final NoteModel note;
   final VoidCallback onDeletePressed;
+  final VoidCallback onBackSavePressed;
 
   @override
   Widget build(BuildContext context) {
@@ -79,12 +88,13 @@ class NoteWidget extends StatelessWidget {
         child: ElevatedButton(
             onPressed: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Note(
-                          id: note.id,
-                          title: note.titleController,
-                          content: note.contentController)));
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Note(
+                              id: note.id,
+                              title: note.titleController,
+                              content: note.contentController)))
+                  .then((_) => onBackSavePressed());
             },
             child: Row(children: [
               Text(note.titleController.text,

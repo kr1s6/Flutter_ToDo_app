@@ -10,9 +10,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DataDB.initDb();
   await DataDB.getNotes();
-
-  print("Length:  ${notesList.length}");
   runApp(const MyApp());
+  //TODO: layout if phone rotate
 }
 
 class MyApp extends StatelessWidget {
@@ -45,7 +44,7 @@ class MyAppState extends ChangeNotifier {
 // -----------------------------------------------------------------------------------------
 List notesList = <NoteModel>[];
 
-class DataDB extends ChangeNotifier {
+class DataDB {
   static Future<void> initDb() async {
     await DatabaseHelper.instance.database
         .whenComplete(() => print("Complete initDB"));
@@ -65,13 +64,6 @@ class DataDB extends ChangeNotifier {
   static Future<void> addNote({required NoteModel note}) async {
     await DatabaseHelper.instance.insert(note: note).then((value) {
       notesList.add(value);
-      print("addNote");
-    });
-    // ------------------------------------
-    await DatabaseHelper.instance.getAllNotes().then((value) {
-      for (var x in value) {
-        print("id: ${x.id}, title: ${x.titleController.text}");
-      }
     });
   }
 
@@ -84,5 +76,9 @@ class DataDB extends ChangeNotifier {
         content: Text(e.toString()),
       ));
     });
+  }
+
+  static Future<void> update({required NoteModel note}) async {
+    await DatabaseHelper.instance.update(note);
   }
 }

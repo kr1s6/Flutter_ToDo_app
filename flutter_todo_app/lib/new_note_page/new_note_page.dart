@@ -30,42 +30,42 @@ class NewNotePageState extends State<NewNotePage> {
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       // ----------------------TOP--------------------------------
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        titleSpacing: 10,
-        title: NewNoteAppBar(controller: titleController),
-      ),
+          automaticallyImplyLeading: false,
+          titleSpacing: 0,
+          title: Row(children: [
+            IconButton(
+              iconSize: 20,
+              tooltip: 'back & save',
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () async {
+                if (titleController.text.trim().isNotEmpty ||
+                    contentController.text.trim().isNotEmpty) {
+                  if (titleController.text.trim().isEmpty) {
+                    titleController.text = contentController.text;
+                    //     .trim()
+                    //     .replaceAll(RegExp(r'\n'), ' ').split(' ');
+                    titleController.text.split("\n").removeWhere(
+                        (item) => item.length == 1 && item.contains(" "));
+
+                    print("Text:  ${contentController.text}");
+                  }
+                  NoteModel note = NoteModel(
+                    title: titleController.text,
+                    content: contentController.text,
+                  );
+                  await DataDB.addNote(note: note).then((value) {
+                    Navigator.pop(context, true);
+                  });
+                } else {
+                  Navigator.pop(context, false);
+                }
+              },
+            ),
+            Expanded(child: NewNoteAppBar(controllerTitle: titleController)),
+          ])),
       // ----------------------Center-------------------------------
       body: NewNoteBody(controller: contentController),
       // ----------------------BOTTOM--------------------------------
-      bottomNavigationBar: const BottomAppBar(
-        notchMargin: 4,
-        clipBehavior: Clip.antiAlias,
-      ),
-      floatingActionButton: FloatingActionButton(
-        tooltip: 'save',
-        onPressed: () async {
-          if (titleController.text.isNotEmpty ||
-              contentController.text.isNotEmpty) {
-            NoteModel note = NoteModel(
-              title: titleController.text,
-              content: contentController.text,
-            );
-            print("Before addNote");
-            await DataDB.addNote(note: note).then((value) {
-              print("Added to noteList!");
-              Navigator.pop(context);
-            });
-          } else {
-            //TODO add boolean to Navigato.pop(context)
-            Navigator.pop(context);
-          }
-        },
-        child: const Icon(
-          Icons.done_rounded,
-          size: 32,
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );
   }
 }
