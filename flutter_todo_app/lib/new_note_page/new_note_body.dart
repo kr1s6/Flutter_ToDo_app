@@ -23,6 +23,7 @@ class NewNoteBodyState extends State<NewNoteBody> {
 
   @override
   Widget build(BuildContext context) {
+    // TODO make functionalities for editing note content
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
       child: TextField(

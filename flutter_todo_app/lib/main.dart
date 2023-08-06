@@ -11,7 +11,6 @@ void main() async {
   await DataDB.initDb();
   await DataDB.getNotes();
   runApp(const MyApp());
-  //TODO: layout if phone rotate
 }
 
 class MyApp extends StatelessWidget {

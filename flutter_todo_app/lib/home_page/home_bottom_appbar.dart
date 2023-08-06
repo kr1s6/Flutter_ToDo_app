@@ -14,6 +14,7 @@ class HomeBottomAppBar extends StatelessWidget {
         child: Row(
           children: <Widget>[
             IconButton(
+              // TODO in navigation make icon for change to dark theme
               padding: const EdgeInsets.all(0),
               tooltip: 'Open navigation menu',
               icon: const Icon(Icons.menu),
@@ -21,6 +22,7 @@ class HomeBottomAppBar extends StatelessWidget {
             ),
             const Spacer(),
             IconButton(
+              // TODO make search button
               padding: const EdgeInsets.all(0),
               tooltip: 'Search',
               icon: const Icon(Icons.search),
