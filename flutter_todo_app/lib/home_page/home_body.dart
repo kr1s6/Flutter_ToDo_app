@@ -7,8 +7,8 @@ import '../main.dart';
 import 'home_page.dart';
 
 class HomeBody extends StatefulWidget {
-  const HomeBody({super.key, required this.controller});
-  final HomePageController controller;
+  const HomeBody({super.key, required this.updateController});
+  final HomePageController updateController;
 
   @override
   State<HomeBody> createState() => _HomeBodyState();
@@ -21,7 +21,7 @@ class _HomeBodyState extends State<HomeBody> {
   @override
   void initState() {
     super.initState();
-    widget.controller.updateBodyState = () {
+    widget.updateController.updateBodyState = () {
       setState(() {});
     };
   }
@@ -37,7 +37,7 @@ class _HomeBodyState extends State<HomeBody> {
       child: ListView(
         padding: const EdgeInsets.all(5),
         children: <Widget>[
-          if (notesList.isNotEmpty)
+          if (notesList.isNotEmpty) ...[
             for (var note in notesList)
               NoteWidget(
                   note: note,
@@ -51,7 +51,7 @@ class _HomeBodyState extends State<HomeBody> {
                       setState(() {});
                     });
                   })
-          else ...[
+          ] else ...[
             Container(
               alignment:
                   AlignmentGeometry.lerp(Alignment.center, Alignment.center, 0),
@@ -71,6 +71,7 @@ class _HomeBodyState extends State<HomeBody> {
 }
 
 class NoteWidget extends StatelessWidget {
+  // TODO make different delete
   const NoteWidget(
       {super.key,
       required this.note,

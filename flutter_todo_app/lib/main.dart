@@ -23,6 +23,10 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'ToDo App',
         theme: CustomTheme().themedata,
+        darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          colorScheme: const ColorScheme.dark(),
+        ),
         home: HomePage(),
         routes: {
           HomePage.routeName: (context) => HomePage(),

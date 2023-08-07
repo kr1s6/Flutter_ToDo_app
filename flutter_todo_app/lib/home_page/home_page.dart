@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
   HomePage({super.key});
   static const String routeName = '/home';
 
-  final HomePageController myController = HomePageController();
+  final HomePageController updateController = HomePageController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +27,14 @@ class HomePage extends StatelessWidget {
         ),
       ),
       // ----------------------Center-------------------------------
-      body: HomeBody(controller: myController),
+      body: HomeBody(updateController: updateController),
       // ----------------------BOTTOM--------------------------------
       bottomNavigationBar: const HomeBottomAppBar(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, NewNotePage.routeName).then((value) {
             if (value == true) {
-              myController.updateBodyState();
+              updateController.updateBodyState();
             }
           });
         },
