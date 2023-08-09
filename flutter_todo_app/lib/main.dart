@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'database.dart';
 import 'home_page/home_page.dart';
 import 'new_note_page/new_note_page.dart';
-import 'theme_data.dart';
+import 'theme_class.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,33 +13,44 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
 
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => MyAppState(),
-      child: MaterialApp(
-        title: 'ToDo App',
-        theme: CustomTheme().themedata,
-        darkTheme: ThemeData(
-          brightness: Brightness.dark,
-          colorScheme: const ColorScheme.dark(),
-        ),
-        home: HomePage(),
-        routes: {
-          HomePage.routeName: (context) => HomePage(),
-          NewNotePage.routeName: (context) => const NewNotePage(),
+    return ChangeNotifierProvider<ThemeNotifier>(
+      create: (context) => ThemeNotifier(),
+      child: Consumer<ThemeNotifier>(
+        builder: (context, theme, __) {
+          return MaterialApp(
+            title: 'Notes',
+            themeMode: theme.mode,
+            theme: ThemeClass.lightTheme,
+            darkTheme: ThemeClass.darkTheme,
+            home: HomePage(),
+            routes: {
+              HomePage.routeName: (context) => HomePage(),
+              NewNotePage.routeName: (context) => const NewNotePage(),
+            },
+          );
         },
       ),
     );
   }
 }
 
-class MyAppState extends ChangeNotifier {
-  // var appState = context.watch<MyAppState>();
-  void notification() {
+class ThemeNotifier extends ChangeNotifier {
+  // var appState = context.watch<ChangeProvider>();
+  ThemeMode _mode;
+  ThemeMode get mode => _mode;
+  ThemeNotifier({ThemeMode mode = ThemeMode.system}) : _mode = mode;
+
+  void toggleMode() {
+    _mode = (_mode == ThemeMode.light) ? ThemeMode.dark : ThemeMode.light;
     notifyListeners();
   }
 }
@@ -57,11 +68,6 @@ class DataDB {
     await DatabaseHelper.instance.getAllNotes().then((value) {
       notesList = value;
     });
-
-    print("notesList values:");
-    for (var x in notesList) {
-      print("id: ${x.id}, title: ${x.titleController.text}");
-    }
   }
 
   static Future<void> addNote({required NoteModel note}) async {

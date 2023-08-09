@@ -17,6 +17,8 @@ dependencies:
   path: ^1.8.2
   intl: ^0.18.1
   pull_to_refresh: ^2.0.0
+  # for small data like dark theme:
+  shared_preferences: 
 
 dev_dependencies:
   flutter_test:

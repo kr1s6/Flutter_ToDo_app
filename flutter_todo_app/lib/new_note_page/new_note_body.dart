@@ -9,8 +9,6 @@ class NewNoteBody extends StatefulWidget {
 }
 
 class NewNoteBodyState extends State<NewNoteBody> {
-  final myController = TextEditingController();
-
   @override
   void initState() {
     super.initState();

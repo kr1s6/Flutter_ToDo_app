@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todo_app/main.dart';
+import 'package:provider/provider.dart';
 
 class HomeBottomAppBar extends StatelessWidget {
   const HomeBottomAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var appState = context.watch<ThemeNotifier>();
+
     return BottomAppBar(
       notchMargin: 4,
       clipBehavior: Clip.antiAlias,
@@ -13,7 +17,6 @@ class HomeBottomAppBar extends StatelessWidget {
         data: const IconThemeData(color: Colors.black),
         child: Row(
           children: <Widget>[
-            // TODO in navigation make icon for change to dark theme
             PopupMenuButton(
               color: const Color.fromARGB(255, 88, 186, 91),
               icon: const Icon(
@@ -25,8 +28,7 @@ class HomeBottomAppBar extends StatelessWidget {
               tooltip: "menu",
               onSelected: (value) {
                 if (value == "Dark mode") {
-                  print("Dark mode");
-                  ThemeData.dark();
+                  appState.toggleMode();
                 } else if (value == "Settings") {}
               },
               itemBuilder: (context) => [
