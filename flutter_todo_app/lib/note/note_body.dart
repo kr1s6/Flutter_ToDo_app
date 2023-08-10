@@ -23,7 +23,9 @@ class _NoteBodyState extends State<NoteBody> {
         expands: true,
         controller: widget.controllerContent,
         maxLines: null,
-        decoration: const InputDecoration(
+        style: TextStyle(color: Theme.of(context).focusColor),
+        decoration: InputDecoration(
+          fillColor: Theme.of(context).colorScheme.primary,
           border: InputBorder.none,
         ),
       ),

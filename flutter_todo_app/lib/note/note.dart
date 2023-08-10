@@ -16,9 +16,9 @@ class Note extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       // ----------------------TOP--------------------------------
       appBar: AppBar(
+          toolbarHeight: 50,
           automaticallyImplyLeading: false,
           titleSpacing: 0,
           title: Row(children: [

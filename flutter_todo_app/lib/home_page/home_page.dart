@@ -16,14 +16,17 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    var theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: theme.colorScheme.primaryContainer,
       // ----------------------TOP--------------------------------
       appBar: AppBar(
-        title: const Text(
+        toolbarHeight: 50,
+        title: Text(
           'Notes',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style: theme.appBarTheme.titleTextStyle?.copyWith(
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
         ),
       ),
       // ----------------------Center-------------------------------
@@ -31,6 +34,7 @@ class HomePage extends StatelessWidget {
       // ----------------------BOTTOM--------------------------------
       bottomNavigationBar: const HomeBottomAppBar(),
       floatingActionButton: FloatingActionButton(
+        shape: const CircleBorder(),
         onPressed: () {
           Navigator.pushNamed(context, NewNotePage.routeName).then((value) {
             if (value == true) {

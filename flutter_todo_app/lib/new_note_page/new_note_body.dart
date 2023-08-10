@@ -29,8 +29,10 @@ class NewNoteBodyState extends State<NewNoteBody> {
         autofocus: true,
         controller: widget.controller,
         maxLines: null,
-        decoration: const InputDecoration(
+        style: TextStyle(color: Theme.of(context).focusColor),
+        decoration: InputDecoration(
           border: InputBorder.none,
+          fillColor: Theme.of(context).colorScheme.primary,
         ),
       ),
     );

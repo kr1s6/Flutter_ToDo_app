@@ -47,7 +47,7 @@ class ThemeNotifier extends ChangeNotifier {
   // var appState = context.watch<ChangeProvider>();
   ThemeMode _mode;
   ThemeMode get mode => _mode;
-  ThemeNotifier({ThemeMode mode = ThemeMode.system}) : _mode = mode;
+  ThemeNotifier({ThemeMode mode = ThemeMode.dark}) : _mode = mode;
 
   void toggleMode() {
     _mode = (_mode == ThemeMode.light) ? ThemeMode.dark : ThemeMode.light;

@@ -60,7 +60,7 @@ class _HomeBodyState extends State<HomeBody> {
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium!
-                    .copyWith(color: Colors.black.withOpacity(0.5)),
+                    .copyWith(color: Theme.of(context).hintColor),
               ),
             ),
           ],
@@ -99,17 +99,14 @@ class NoteWidget extends StatelessWidget {
             },
             child: Row(children: [
               Text(note.titleController.text,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    color: Color.fromARGB(255, 218, 255, 203),
-                  )),
+                  style: TextStyle(
+                      color: Theme.of(context).textTheme.bodyMedium!.color,
+                      fontSize: 18)),
               const Spacer(),
               IconButton(
-                  icon: const Icon(
-                    Icons.delete,
-                    size: 20,
-                    color: Color.fromARGB(255, 210, 255, 192),
-                  ),
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  iconSize: 20,
+                  icon: const Icon(Icons.delete),
                   onPressed: () {
                     onDeletePressed();
                   })

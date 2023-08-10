@@ -23,19 +23,20 @@ class NewNoteAppBarState extends State<NewNoteAppBar> {
         message: "title",
         child: TextField(
           controller: widget.controllerTitle,
-          style: Theme.of(context).textTheme.titleMedium,
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium!
+              .copyWith(color: Theme.of(context).focusColor),
           maxLength: 25,
           decoration: InputDecoration(
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
             counterText: "",
             filled: true,
-            fillColor: const Color.fromARGB(255, 213, 230, 209),
+            fillColor: Theme.of(context).colorScheme.primary,
             border: const OutlineInputBorder(),
             hintText: "Title",
-            hintStyle: TextStyle(
-              color: Colors.black.withOpacity(0.4),
-            ),
+            // fillColor:
           ),
         ),
       ),
