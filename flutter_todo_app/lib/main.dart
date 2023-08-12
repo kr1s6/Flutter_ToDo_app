@@ -13,17 +13,12 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<ThemeNotifier>(
-      create: (context) => ThemeNotifier(),
+      create: (_) => ThemeNotifier(),
       child: Consumer<ThemeNotifier>(
         builder: (context, theme, __) {
           return MaterialApp(
@@ -43,14 +38,38 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
+// var appState = context.watch<ChangeProvider>();
 class ThemeNotifier extends ChangeNotifier {
-  // var appState = context.watch<ChangeProvider>();
-  ThemeMode _mode;
+  ThemeMode _mode = ThemeMode.system;
   ThemeMode get mode => _mode;
-  ThemeNotifier({ThemeMode mode = ThemeMode.dark}) : _mode = mode;
 
-  void toggleMode() {
-    _mode = (_mode == ThemeMode.light) ? ThemeMode.dark : ThemeMode.light;
+  final _theme = DarkThemeSharedPreference();
+
+  ThemeNotifier() {
+    _theme.getDarkTheme().then((value) {
+      print('value read from storage: ${value.toString()}');
+      var themeMode = value ?? 'system';
+      if (themeMode == false) {
+        _mode = ThemeMode.light;
+        print("Light theme");
+      } else {
+        _mode = ThemeMode.dark;
+        print("dark theme");
+      }
+      notifyListeners();
+    });
+  }
+
+  void changeThemeMode() {
+    if (_mode == ThemeMode.light) {
+      _mode = ThemeMode.dark;
+      _theme.setDarkTheme(true);
+      print("set dark");
+    } else {
+      _mode = ThemeMode.light;
+      _theme.setDarkTheme(false);
+      print("set light");
+    }
     notifyListeners();
   }
 }

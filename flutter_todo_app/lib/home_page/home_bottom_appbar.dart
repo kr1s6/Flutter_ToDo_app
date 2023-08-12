@@ -25,7 +25,7 @@ class HomeBottomAppBar extends StatelessWidget {
             tooltip: "menu",
             onSelected: (value) {
               if (value == "Dark mode") {
-                appState.toggleMode();
+                appState.changeThemeMode();
               } else if (value == "Settings") {}
             },
             itemBuilder: (context) => [

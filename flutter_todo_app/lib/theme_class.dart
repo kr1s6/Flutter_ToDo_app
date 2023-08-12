@@ -1,4 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class DarkThemeSharedPreference {
+  static const themeMode = "themeMode";
+
+  setDarkTheme(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool(themeMode, value);
+  }
+
+  getDarkTheme() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(themeMode);
+  }
+
+  removeValues() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove(themeMode);
+  }
+}
 
 class ThemeClass {
   static ThemeData lightTheme = ThemeData(
@@ -39,7 +59,7 @@ class ThemeClass {
         const PopupMenuThemeData(color: Color.fromARGB(255, 88, 186, 91)),
   );
 // ----------------------------------------------
-// ----------------------------------------------
+// -----------------DARK THEME-------------------
 // ----------------------------------------------
   static ThemeData darkTheme = ThemeData(
     useMaterial3: true,
@@ -53,10 +73,10 @@ class ThemeClass {
     scaffoldBackgroundColor: Colors.black,
     appBarTheme: const AppBarTheme(
       titleTextStyle: TextStyle(color: Colors.white),
-      backgroundColor: Color.fromARGB(255, 47, 47, 47),
+      backgroundColor: Color.fromARGB(255, 33, 33, 33),
     ),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
-      backgroundColor: Color.fromARGB(255, 100, 100, 100),
+      backgroundColor: Color.fromARGB(255, 74, 74, 74),
       foregroundColor: Colors.white,
     ),
     bottomAppBarTheme: const BottomAppBarTheme(
