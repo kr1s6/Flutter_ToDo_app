@@ -25,8 +25,8 @@ class ThemeClass {
     useMaterial3: true,
     colorScheme: ColorScheme.fromSeed(
       seedColor: Colors.green,
-      primary: const Color.fromARGB(255, 213, 230, 209),
       onPrimary: Colors.black,
+      secondary: const Color.fromARGB(255, 213, 230, 209),
     ),
     scaffoldBackgroundColor: const Color.fromARGB(255, 167, 243, 170),
     appBarTheme: const AppBarTheme(
@@ -66,8 +66,10 @@ class ThemeClass {
     colorScheme: ColorScheme.fromSeed(
       seedColor: Colors.black,
       brightness: Brightness.dark,
-      primary: Colors.black,
+      // primary is for cursor
+      primary: Colors.amber,
       onPrimary: Colors.white,
+      secondary: Colors.black,
     ),
     hintColor: Colors.white.withOpacity(0.5),
     scaffoldBackgroundColor: Colors.black,
@@ -99,7 +101,8 @@ class ThemeClass {
     ),
     focusColor: Colors.white,
     iconTheme: const IconThemeData(color: Colors.white),
-    popupMenuTheme:
-        const PopupMenuThemeData(color: Color.fromARGB(255, 53, 53, 53)),
+    popupMenuTheme: const PopupMenuThemeData(
+      color: Color.fromARGB(255, 53, 53, 53),
+    ),
   );
 }

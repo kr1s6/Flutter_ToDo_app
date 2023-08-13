@@ -26,9 +26,9 @@ class MyApp extends StatelessWidget {
             themeMode: theme.mode,
             theme: ThemeClass.lightTheme,
             darkTheme: ThemeClass.darkTheme,
-            home: HomePage(),
+            home: HomePage(theme: theme),
             routes: {
-              HomePage.routeName: (context) => HomePage(),
+              HomePage.routeName: (context) => HomePage(theme: theme),
               NewNotePage.routeName: (context) => const NewNotePage(),
             },
           );
@@ -38,23 +38,32 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// var appState = context.watch<ChangeProvider>();
+// var themeState = context.watch<ChangeProvider>();
 class ThemeNotifier extends ChangeNotifier {
-  ThemeMode _mode = ThemeMode.system;
+  ThemeMode _mode = ThemeMode.light;
   ThemeMode get mode => _mode;
+
+  IconData _themeIcon = Icons.nightlight;
+  String _themeString = "Dark mode";
+  get themeIcon => _themeIcon;
+  get themeString => _themeString;
 
   final _theme = DarkThemeSharedPreference();
 
   ThemeNotifier() {
     _theme.getDarkTheme().then((value) {
       print('value read from storage: ${value.toString()}');
-      var themeMode = value ?? 'system';
-      if (themeMode == false) {
+      var isDarkTheme = value ?? 'light';
+      if (isDarkTheme) {
+        _themeIcon = Icons.wb_sunny;
+        _themeString = "Light mode";
+        _mode = ThemeMode.dark;
+        print("Dark theme");
+      } else {
+        _themeIcon = Icons.nightlight;
+        _themeString = "Dark mode";
         _mode = ThemeMode.light;
         print("Light theme");
-      } else {
-        _mode = ThemeMode.dark;
-        print("dark theme");
       }
       notifyListeners();
     });
@@ -62,13 +71,17 @@ class ThemeNotifier extends ChangeNotifier {
 
   void changeThemeMode() {
     if (_mode == ThemeMode.light) {
+      _themeIcon = Icons.wb_sunny;
+      _themeString = "Light mode";
       _mode = ThemeMode.dark;
       _theme.setDarkTheme(true);
-      print("set dark");
+      print("set dark theme");
     } else {
+      _themeIcon = Icons.nightlight;
+      _themeString = "Dark mode";
       _mode = ThemeMode.light;
       _theme.setDarkTheme(false);
-      print("set light");
+      print("set light theme");
     }
     notifyListeners();
   }

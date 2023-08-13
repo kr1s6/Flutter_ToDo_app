@@ -33,7 +33,7 @@ class _NoteAppBarState extends State<NoteAppBar> {
                 const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
             counterText: "",
             filled: true,
-            fillColor: Theme.of(context).colorScheme.primary,
+            fillColor: Theme.of(context).colorScheme.secondary,
             border: const OutlineInputBorder(),
           ),
         ),

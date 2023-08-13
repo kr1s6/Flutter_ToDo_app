@@ -25,7 +25,7 @@ class _NoteBodyState extends State<NoteBody> {
         maxLines: null,
         style: TextStyle(color: Theme.of(context).focusColor),
         decoration: InputDecoration(
-          fillColor: Theme.of(context).colorScheme.primary,
+          fillColor: Theme.of(context).colorScheme.secondary,
           border: InputBorder.none,
         ),
       ),
