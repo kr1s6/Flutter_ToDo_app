@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
             home: HomePage(theme: theme),
             routes: {
               HomePage.routeName: (context) => HomePage(theme: theme),
-              NewNotePage.routeName: (context) => const NewNotePage(),
+              NewNotePage.routeName: (context) => NewNotePage(),
             },
           );
         },
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// var themeState = context.watch<ChangeProvider>();
+// var themeState = context.watch<ThemeNotifier>();
 class ThemeNotifier extends ChangeNotifier {
   ThemeMode _mode = ThemeMode.light;
   ThemeMode get mode => _mode;

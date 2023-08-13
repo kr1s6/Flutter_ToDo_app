@@ -12,7 +12,6 @@ class NewNoteBodyState extends State<NewNoteBody> {
   @override
   void initState() {
     super.initState();
-    widget.controller.text = widget.controller.text;
     widget.controller.text =
         "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
     widget.controller.selection =

@@ -5,26 +5,14 @@ import '../database.dart';
 import 'new_note_appbar.dart';
 import 'new_note_body.dart';
 
-class NewNotePage extends StatefulWidget {
-  const NewNotePage({super.key});
+class NewNotePage extends StatelessWidget {
+  NewNotePage({super.key});
   static const String routeName = '/home/new_note';
 
-  @override
-  State<NewNotePage> createState() => NewNotePageState();
-}
-
-class NewNotePageState extends State<NewNotePage> {
   final titleController = TextEditingController();
   final contentController = TextEditingController();
 
-  @override
-  void dispose() {
-    titleController.dispose();
-    contentController.dispose();
-    super.dispose();
-  }
-
-// If title is empty then title is created out of content.
+  // If title is empty then title is created out of content.
   void ifEmptyTitle() {
     if (titleController.text.trim().isEmpty) {
       titleController.text = contentController.text;

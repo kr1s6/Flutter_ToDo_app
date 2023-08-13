@@ -1,70 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_app/database.dart';
 import 'package:flutter_todo_app/note/note.dart';
+import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../main.dart';
 import 'home_page.dart';
 
-class HomeBody extends StatefulWidget {
-  const HomeBody({super.key, required this.updateController});
-  final HomePageController updateController;
-
-  @override
-  State<HomeBody> createState() => _HomeBodyState();
-}
-
-class _HomeBodyState extends State<HomeBody> {
+class HomeBody extends StatelessWidget {
+  HomeBody({super.key});
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
-
-  @override
-  void initState() {
-    super.initState();
-    widget.updateController.updateBodyState = () {
-      setState(() {});
-    };
-  }
 
   @override
   Widget build(BuildContext context) {
     return SmartRefresher(
       controller: _refreshController,
       onRefresh: () {
-        setState(() {});
+        Provider.of<BodyUpdate>(context, listen: false).refreshBody();
         _refreshController.refreshCompleted();
       },
-      child: ListView(
-        padding: const EdgeInsets.all(5),
-        children: <Widget>[
-          if (notesList.isNotEmpty) ...[
-            for (var note in notesList)
-              NoteWidget(
-                  note: note,
-                  onDeletePressed: () {
-                    DataDB.delete(note: note, context: context).then((_) {
-                      setState(() {});
-                    });
-                  },
-                  onBackSavePressed: () {
-                    DataDB.update(note: note).then((_) {
-                      setState(() {});
-                    });
-                  })
-          ] else ...[
-            Container(
-              alignment:
-                  AlignmentGeometry.lerp(Alignment.center, Alignment.center, 0),
-              child: Text(
-                "Add your first note",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(color: Theme.of(context).hintColor),
+      child: Consumer<BodyUpdate>(
+        builder: (_, bodyUpdate, __) => ListView(
+          padding: const EdgeInsets.all(5),
+          children: <Widget>[
+            if (notesList.isNotEmpty) ...[
+              for (var note in notesList)
+                NoteWidget(
+                    note: note,
+                    onDeletePressed: () {
+                      DataDB.delete(note: note, context: context).then((_) {
+                        bodyUpdate.refreshBody();
+                      });
+                    },
+                    onBackSavePressed: () {
+                      DataDB.update(note: note).then((_) {
+                        bodyUpdate.refreshBody();
+                      });
+                    })
+            ] else ...[
+              Container(
+                alignment: AlignmentGeometry.lerp(
+                    Alignment.center, Alignment.center, 0),
+                child: Text(
+                  "Add your first note",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(color: Theme.of(context).hintColor),
+                ),
               ),
-            ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }
