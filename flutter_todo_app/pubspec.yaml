@@ -16,10 +16,8 @@ dependencies:
   sqflite: ^2.3.0
   path: ^1.8.2
   intl: ^0.18.1
-  sqflite_common_ffi:
-  sqlite3_flutter_libs:
-  foundation:
   pull_to_refresh: ^2.0.0
+  shared_preferences: 
 
 dev_dependencies:
   flutter_test:

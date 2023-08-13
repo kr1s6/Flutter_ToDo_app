@@ -92,12 +92,7 @@ class DatabaseHelper {
   Future<void> update(NoteModel note) async {
     try {
       final db = await instance.database;
-      db.update(
-        "notes",
-        note.toMap(),
-        where: 'id = ?',
-        whereArgs: [note.id],
-      );
+      db.update("notes", note.toMap(), where: 'id = ?', whereArgs: [note.id]);
     } catch (e) {
       print(e.toString());
     }

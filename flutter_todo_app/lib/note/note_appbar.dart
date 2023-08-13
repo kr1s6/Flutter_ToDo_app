@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../main.dart';
 
 class NoteAppBar extends StatefulWidget {
   const NoteAppBar({super.key, required this.controllerTitle});
@@ -20,23 +17,25 @@ class _NoteAppBarState extends State<NoteAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
-
     return SizedBox(
       height: 35,
-      child: TextField(
-        controller: widget.controllerTitle,
-        onChanged: (value) {
-          appState.notification();
-        },
-        style: Theme.of(context).textTheme.titleMedium,
-        maxLength: 25,
-        decoration: const InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 8),
-          counterText: "",
-          filled: true,
-          fillColor: Color.fromARGB(255, 213, 230, 209),
-          border: OutlineInputBorder(),
+      child: Tooltip(
+        message: "title",
+        child: TextField(
+          controller: widget.controllerTitle,
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium!
+              .copyWith(color: Theme.of(context).focusColor),
+          maxLength: 25,
+          decoration: InputDecoration(
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+            counterText: "",
+            filled: true,
+            fillColor: Theme.of(context).colorScheme.secondary,
+            border: const OutlineInputBorder(),
+          ),
         ),
       ),
     );

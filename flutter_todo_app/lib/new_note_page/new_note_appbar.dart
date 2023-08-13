@@ -1,19 +1,8 @@
 import 'package:flutter/material.dart';
 
-class NewNoteAppBar extends StatefulWidget {
-  const NewNoteAppBar({super.key, required this.controller});
-  final TextEditingController controller;
-
-  @override
-  State<NewNoteAppBar> createState() => NewNoteAppBarState();
-}
-
-class NewNoteAppBarState extends State<NewNoteAppBar> {
-  @override
-  void initState() {
-    super.initState();
-    widget.controller.text = widget.controller.text;
-  }
+class NewNoteAppBar extends StatelessWidget {
+  const NewNoteAppBar({super.key, required this.controllerTitle});
+  final TextEditingController controllerTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -22,22 +11,21 @@ class NewNoteAppBarState extends State<NewNoteAppBar> {
       child: Tooltip(
         message: "title",
         child: TextField(
-          controller: widget.controller,
-          textAlignVertical: TextAlignVertical.center,
-          style: Theme.of(context).textTheme.titleMedium,
+          controller: controllerTitle,
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium!
+              .copyWith(color: Theme.of(context).focusColor),
           maxLength: 25,
-          maxLines: 1,
           decoration: InputDecoration(
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
             counterText: "",
             filled: true,
-            fillColor: const Color.fromARGB(255, 213, 230, 209),
+            fillColor: Theme.of(context).colorScheme.secondary,
             border: const OutlineInputBorder(),
             hintText: "Title",
-            hintStyle: TextStyle(
-              color: Colors.black.withOpacity(0.4),
-            ),
+            // fillColor:
           ),
         ),
       ),
