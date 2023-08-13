@@ -8,7 +8,6 @@ import 'new_note_body.dart';
 class NewNotePage extends StatelessWidget {
   NewNotePage({super.key});
   static const String routeName = '/home/new_note';
-
   final titleController = TextEditingController();
   final contentController = TextEditingController();
 
