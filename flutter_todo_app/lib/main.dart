@@ -110,6 +110,7 @@ class DataDB {
 
   static Future<void> delete(
       {required NoteModel note, required BuildContext context}) async {
+    print("DataBase delete");
     await DatabaseHelper.instance.delete(note.id!).then((_) {
       notesList.remove(note);
     }).catchError((e) {
