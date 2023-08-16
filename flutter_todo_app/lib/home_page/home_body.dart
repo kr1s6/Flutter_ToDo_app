@@ -17,27 +17,23 @@ class HomeBody extends StatelessWidget {
     return SmartRefresher(
       controller: _refreshController,
       onRefresh: () {
-        Provider.of<BodyUpdate>(context, listen: false).refreshBody();
+        Provider.of<BodyUpdateProvider>(context, listen: false).refreshBody();
         _refreshController.refreshCompleted();
       },
-      child: Consumer<BodyUpdate>(
+      child: Consumer<BodyUpdateProvider>(
         builder: (_, bodyUpdate, __) => ListView(
           padding: const EdgeInsets.all(5),
           children: <Widget>[
             if (notesList.isNotEmpty) ...[
               for (var note in notesList)
                 NoteWidget(
-                    note: note,
-                    onDeletePressed: () {
-                      DataDB.delete(note: note, context: context).then((_) {
-                        bodyUpdate.refreshBody();
-                      });
-                    },
-                    onBackSavePressed: () {
-                      DataDB.update(note: note).then((_) {
-                        bodyUpdate.refreshBody();
-                      });
-                    })
+                  note: note,
+                  onBackSavePressed: () {
+                    DataDB.update(note: note).then((_) {
+                      bodyUpdate.refreshBody();
+                    });
+                  },
+                )
             ] else ...[
               Container(
                 alignment: AlignmentGeometry.lerp(
@@ -59,15 +55,65 @@ class HomeBody extends StatelessWidget {
 }
 
 class NoteWidget extends StatelessWidget {
-  // TODO make different delete
-  const NoteWidget(
-      {super.key,
-      required this.note,
-      required this.onDeletePressed,
-      required this.onBackSavePressed});
+  const NoteWidget({
+    super.key,
+    required this.note,
+    required this.onBackSavePressed,
+  });
   final NoteModel note;
-  final VoidCallback onDeletePressed;
   final VoidCallback onBackSavePressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<NoteLongPressedProvider>(
+      builder: (_, value, __) => value.noteLongPressed
+          ? NoteAfterLongPress(
+              note: note,
+              value: value,
+            )
+          : Column(children: [
+              SizedBox(
+                height: 40,
+                child: ElevatedButton(
+                    onLongPress: () {
+                      print('You long pressed Note button.');
+                      value.notesEditList.add(note);
+                      Provider.of<NoteLongPressedProvider>(context,
+                              listen: false)
+                          .onNoteLongPressed();
+                    },
+                    onPressed: () {
+                      Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Note(
+                                      id: note.id,
+                                      title: note.titleController,
+                                      content: note.contentController)))
+                          .then((_) => onBackSavePressed());
+                    },
+                    child: Row(children: [
+                      Text(note.titleController.text,
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyMedium!.color,
+                              fontSize: 18)),
+                    ])),
+              ),
+              const SizedBox(height: 5)
+            ]),
+    );
+  }
+}
+
+class NoteAfterLongPress extends StatelessWidget {
+  const NoteAfterLongPress({
+    super.key,
+    required this.note,
+    required this.value,
+  });
+  final NoteModel note;
+  final NoteLongPressedProvider value;
 
   @override
   Widget build(BuildContext context) {
@@ -75,30 +121,18 @@ class NoteWidget extends StatelessWidget {
       SizedBox(
         height: 40,
         child: ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Note(
-                              id: note.id,
-                              title: note.titleController,
-                              content: note.contentController)))
-                  .then((_) => onBackSavePressed());
-            },
-            child: Row(children: [
-              Text(note.titleController.text,
-                  style: TextStyle(
-                      color: Theme.of(context).textTheme.bodyMedium!.color,
-                      fontSize: 18)),
-              const Spacer(),
-              IconButton(
-                  color: Theme.of(context).colorScheme.onPrimary,
-                  iconSize: 20,
-                  icon: const Icon(Icons.delete),
-                  onPressed: () {
-                    onDeletePressed();
-                  })
-            ])),
+          onPressed: () => value.addToEditList(note),
+          style: value.notesEditList.contains(note)
+              ? ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.tertiary)
+              : null,
+          child: Row(children: [
+            Text(note.titleController.text,
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyMedium!.color,
+                    fontSize: 18)),
+          ]),
+        ),
       ),
       const SizedBox(height: 5)
     ]);

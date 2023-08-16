@@ -24,10 +24,10 @@ class ThemeClass {
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     colorScheme: ColorScheme.fromSeed(
-      seedColor: Colors.green,
-      onPrimary: Colors.black,
-      secondary: const Color.fromARGB(255, 213, 230, 209),
-    ),
+        seedColor: Colors.green,
+        onPrimary: Colors.black,
+        secondary: const Color.fromARGB(255, 213, 230, 209),
+        tertiary: const Color.fromARGB(255, 141, 200, 150)),
     scaffoldBackgroundColor: const Color.fromARGB(255, 167, 243, 170),
     appBarTheme: const AppBarTheme(
       titleTextStyle: TextStyle(color: Colors.black),
@@ -70,6 +70,7 @@ class ThemeClass {
       primary: Colors.amber,
       onPrimary: Colors.white,
       secondary: Colors.black,
+      tertiary: const Color.fromARGB(255, 74, 74, 74),
     ),
     hintColor: Colors.white.withOpacity(0.5),
     scaffoldBackgroundColor: Colors.black,

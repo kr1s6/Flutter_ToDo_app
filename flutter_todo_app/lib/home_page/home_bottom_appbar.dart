@@ -17,9 +17,12 @@ class HomeBottomAppBar extends StatelessWidget {
       child: Row(
         children: <Widget>[
           PopupMenuButton(
-            icon: const Icon(Icons.menu),
+            icon: Icon(
+              Icons.menu,
+              color: Theme.of(context).iconTheme.color,
+            ),
             padding: const EdgeInsets.all(0),
-            offset: const Offset(0, -110),
+            offset: const Offset(0, -100),
             tooltip: "menu",
             onSelected: (value) {
               if (value == "Theme") {
