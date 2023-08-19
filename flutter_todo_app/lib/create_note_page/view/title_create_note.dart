@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class NewNoteAppBar extends StatelessWidget {
-  const NewNoteAppBar({super.key, required this.controllerTitle});
-  final TextEditingController controllerTitle;
+class TitleAppBar extends StatelessWidget {
+  const TitleAppBar({super.key, required this.controller});
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +11,7 @@ class NewNoteAppBar extends StatelessWidget {
       child: Tooltip(
         message: "title",
         child: TextField(
-          controller: controllerTitle,
+          controller: controller,
           style: Theme.of(context)
               .textTheme
               .titleMedium!

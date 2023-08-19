@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_todo_app/main.dart';
+
+import '../../theme/theme_controller.dart';
+import '../controller/home_notifier.dart';
 
 class HomeBottomAppBar extends StatelessWidget {
   const HomeBottomAppBar({super.key, required this.theme});
@@ -17,10 +19,7 @@ class HomeBottomAppBar extends StatelessWidget {
       child: Row(
         children: <Widget>[
           PopupMenuButton(
-            icon: Icon(
-              Icons.menu,
-              color: Theme.of(context).iconTheme.color,
-            ),
+            icon: Icon(Icons.menu, color: Theme.of(context).iconTheme.color),
             padding: const EdgeInsets.all(0),
             offset: const Offset(0, -100),
             tooltip: "menu",
@@ -77,4 +76,36 @@ PopupMenuItem _buildPopupMenuItem(
       ],
     ),
   );
+}
+
+class HomeBottomEditing extends StatelessWidget {
+  const HomeBottomEditing({super.key, required this.value});
+  final HomeNotifier value;
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomAppBar(
+      color: Theme.of(context).colorScheme.tertiary,
+      height: 50,
+      padding: const EdgeInsets.all(5),
+      shape: const CircularNotchedRectangle(),
+      notchMargin: 4,
+      clipBehavior: Clip.antiAlias,
+      // -------------------------------------------------
+      child: Row(
+        children: <Widget>[
+          const Spacer(),
+          IconButton(
+            padding: const EdgeInsets.all(0),
+            tooltip: 'Delete',
+            icon: const Icon(Icons.delete, size: 30),
+            onPressed: () {
+              print('Pressed Trashcan.');
+              value.deleteNotes(context);
+            },
+          ),
+        ],
+      ),
+    );
+  }
 }

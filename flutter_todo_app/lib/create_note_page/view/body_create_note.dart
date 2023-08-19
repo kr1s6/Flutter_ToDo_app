@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class NewNoteBody extends StatefulWidget {
-  const NewNoteBody({super.key, required this.controller});
+class Body extends StatefulWidget {
+  const Body({super.key, required this.controller});
   final TextEditingController controller;
 
   @override
-  State<NewNoteBody> createState() => NewNoteBodyState();
+  State<Body> createState() => BodyState();
 }
 
-class NewNoteBodyState extends State<NewNoteBody> {
+class BodyState extends State<Body> {
   @override
   void initState() {
     super.initState();

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'note_appbar.dart';
-import 'note_body.dart';
+import 'title_note.dart';
+import 'body_note.dart';
 
 class Note extends StatelessWidget {
   const Note(
