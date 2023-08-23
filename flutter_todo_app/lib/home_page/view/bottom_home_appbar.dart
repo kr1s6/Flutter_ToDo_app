@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todo_app/home_page/controller/home_notifier.dart';
 
+import '../../search_page/view/search_page.dart';
 import '../../theme/theme_controller.dart';
-import '../controller/home_notifier.dart';
 
 class HomeBottomAppBar extends StatelessWidget {
-  const HomeBottomAppBar({super.key, required this.theme});
+  const HomeBottomAppBar({super.key, required this.theme, required this.value});
   final ThemeNotifier theme;
-
+  final HomeNotifier value;
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
@@ -38,11 +39,13 @@ class HomeBottomAppBar extends StatelessWidget {
           // -------------------------------------------------------------
           const Spacer(),
           IconButton(
-            // TODO make search button
             padding: const EdgeInsets.all(0),
             tooltip: 'Search',
             icon: const Icon(Icons.search),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, SearchPage.routeName)
+                  .then((_) => value.refresh());
+            },
           ),
         ],
       ),
@@ -76,36 +79,4 @@ PopupMenuItem _buildPopupMenuItem(
       ],
     ),
   );
-}
-
-class HomeBottomEditing extends StatelessWidget {
-  const HomeBottomEditing({super.key, required this.value});
-  final HomeNotifier value;
-
-  @override
-  Widget build(BuildContext context) {
-    return BottomAppBar(
-      color: Theme.of(context).colorScheme.tertiary,
-      height: 50,
-      padding: const EdgeInsets.all(5),
-      shape: const CircularNotchedRectangle(),
-      notchMargin: 4,
-      clipBehavior: Clip.antiAlias,
-      // -------------------------------------------------
-      child: Row(
-        children: <Widget>[
-          const Spacer(),
-          IconButton(
-            padding: const EdgeInsets.all(0),
-            tooltip: 'Delete',
-            icon: const Icon(Icons.delete, size: 30),
-            onPressed: () {
-              print('Pressed Trashcan.');
-              value.deleteNotes(context);
-            },
-          ),
-        ],
-      ),
-    );
-  }
 }

@@ -26,9 +26,7 @@ class Note extends StatelessWidget {
               iconSize: 20,
               tooltip: 'back & save',
               icon: const Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              onPressed: () => Navigator.pop(context),
             ),
             Expanded(child: NoteAppBar(controllerTitle: title)),
           ])),

@@ -5,7 +5,7 @@ import '../../create_note_page/view/create_note_page.dart';
 import '../../theme/theme_controller.dart';
 import '../controller/home_notifier.dart';
 import 'body_home.dart';
-import 'bottom_home_appbars.dart';
+import 'bottom_home_appbar.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key, required this.theme});
@@ -31,26 +31,22 @@ class HomePage extends StatelessWidget {
           // ----------------------Center-------------------------------
           body: HomeBody(value: value),
           // ------------------BOTTOM NAVIGATION BAR--------------------
-          bottomNavigationBar: value.noteLongPressed
-              ? HomeBottomEditing(value: value)
-              : HomeBottomAppBar(theme: theme),
+          bottomNavigationBar: HomeBottomAppBar(theme: theme, value: value),
           // -------------------FLOATING ACTION BUTTON-------------------
-          floatingActionButton: Visibility(
-            visible: value.noteLongPressed ? false : true,
-            child: FloatingActionButton(
-              shape: const CircleBorder(),
-              onPressed: () {
-                Navigator.pushNamed(context, NewNotePage.routeName)
-                    .then((embody) {
-                  if (embody == true) {
-                    value.refresh();
-                  }
-                });
-              },
-              child: const Icon(Icons.create),
-            ),
+          floatingActionButton: FloatingActionButton(
+            shape: const CircleBorder(),
+            onPressed: () {
+              Navigator.pushNamed(context, NewNotePage.routeName)
+                  .then((embody) {
+                if (embody == true) {
+                  value.refresh();
+                }
+              });
+            },
+            child: const Icon(Icons.create),
           ),
-          floatingActionButtonLocation: value.floatingActionButtonLocation,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
         ),
       ),
     );
